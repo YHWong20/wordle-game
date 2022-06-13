@@ -8,10 +8,10 @@ def txt_parser(filename):
     result = []
     f = open(filename, "r")
     for line in f:
-        result.append(line[0:5])
+        result.append(line[0:5]) # Alter accordingly. This was done to remove escape characters but a more sophisticated method could be used.
     return result
 
-word_list = txt_parser(r"C:\Users\Gamer\Documents\Python Files\wordle\5_letter_words.txt")
+word_list = txt_parser() # Insert file loc for .txt of word list
 new_game = wdgame.Wordle(random.choice(word_list))
 
 root = tk.Tk()
@@ -46,6 +46,7 @@ def player_guess():
 def game_lose():
     messagebox.showinfo("Game Over!", "Game Over!")
 
+    
 def game_win():
     messagebox.showinfo("You Win!", f"Your Score Is {1 + new_game.attempts_left}.")
     
