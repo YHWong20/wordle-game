@@ -8,10 +8,10 @@ def txt_parser(filename):
     result = []
     f = open(filename, "r")
     for line in f:
-        result.append(line[0:5]) # Alter accordingly. This was done to remove escape characters but a more sophisticated method could be used.
+        result.append(line[0:5]) # To remove escape characters
     return result
 
-word_list = txt_parser() # Insert file loc for .txt of word list
+word_list = txt_parser(r"C:\Users\Gamer\Documents\Python Files\wordle\5_letter_words.txt")
 new_game = wdgame.Wordle(random.choice(word_list))
 
 root = tk.Tk()
@@ -26,6 +26,11 @@ def player_guess():
     
     if len(guess) != len(new_game.word): # Entered word is of incorrect length (std length is 5)
         messagebox.showinfo("Try Again!", "Entry is not of the correct length!")
+        entry_box.delete(0, tk.END)
+        return
+    
+    if guess.lower() not in word_list: # Invalid 5 letter word
+        messagebox.showinfo("Try Again!", "Invalid Word!")
         entry_box.delete(0, tk.END)
         return
 
@@ -46,7 +51,6 @@ def player_guess():
 def game_lose():
     messagebox.showinfo("Game Over!", "Game Over!")
 
-    
 def game_win():
     messagebox.showinfo("You Win!", f"Your Score Is {1 + new_game.attempts_left}.")
     
@@ -64,9 +68,9 @@ def show_guessed_word():
         letter_label.grid(row= 5 - new_game.attempts_left, columnspan= 5, column= i, \
             padx= 10, pady= 10, ipadx= 10, ipady= 10)
 
-        if (position_dict[chr] == 2 and chr == new_game.word[i]) or (position_dict[chr] == 1 and chr == new_game.word[i]):
+        if (position_dict[chr] == 2 and chr == new_game.word[i]) or (position_dict[chr] == 1 and chr == new_game.word[i]): # To account for non-duplicated keys in dict
             letter_label.config(bg= "#2e9800", fg= "white")
-        elif position_dict[chr] == 1 or (position_dict[chr] == 2 and chr != new_game.word[i]):
+        elif position_dict[chr] == 1 or (position_dict[chr] == 2 and chr != new_game.word[i]): # To account for non-duplicated keys in dict
             letter_label.config(bg= "#FFC300", fg= "white")
         else:
             letter_label.config(bg= "#b2b2b2", fg= "white")
@@ -90,5 +94,4 @@ root.mainloop()
 
 # -- TO-DO --
 # ** figure out way to adjust dimensions properly, make interface nicer and less overlappy **
-# redo implementation for position check to make labelling easier
 # HARD - retry system
